@@ -10,6 +10,7 @@ class Node{
    int r, g, b;
    
    public Node(String inputin, int rin, int gin, int bin, int freq){
+     clipPunct(inputin);
      input = inputin;
      r = rin;
      g = gin;
@@ -82,7 +83,8 @@ void parseInput(){
  int spaceIndex;
  
  for( int i=0; i < lines.length; i++){ 
-   while(lines[i] != ""){
+   lines[i] = lines[i].substring(0, lines[i].length()-1);
+   while(lines[i] != "" && lines[i] != "\n" && lines[i] != " "){
    
      spaceIndex = lines[i].indexOf(" ");   
    
@@ -117,6 +119,7 @@ void parseInput(){
 
 
 void draw(){
+  background(53, 56, 57);
   drawText(); 
 }
 
@@ -124,11 +127,24 @@ void drawText(){
   int x= 10;
   int y=10;
   
-  
-  
   for(int i=0; i<inputs.size(); i++){
      fill(inputs.get(i).r, inputs.get(i).g, inputs.get(i).b);
      text(inputs.get(i).getWord(), x, y);
+     //x+= ((inputs.get(i).getWord()).length())*9;
      y+=15;
   }
+}
+
+void clipPunct(String s){
+ int period = s.indexOf(".");
+ int comma = s.indexOf(",");
+ int quote = s.indexOf("\"");
+ int exclamation = s.indexOf("!");
+ int question = s.indexOf("?");
+ if(period ==0 || comma==0 || quote ==0 || exclamation ==0 || question == 0){
+  s=s.substring(1); 
+ }
+ else if (period == s.length() || comma==s.length() || quote ==s.length() || exclamation ==s.length() || question == s.length()){
+  s=s.substring(0, s.length()-1);
+ }
 }
