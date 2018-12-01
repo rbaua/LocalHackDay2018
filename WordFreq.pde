@@ -13,10 +13,12 @@ class Node{
    }
    
    public void darken(){
-     float tintFactor = .25;
-     r = int(r + (255 - r) * tintFactor);
-     g = int(g + (255 - g) * tintFactor);
-     b = int(b + (255 - b) * tintFactor);
+     if (r > 187){
+       r = r - 1;
+     }
+     if (g > 0){
+       g = g - 3;
+     }
    }
    
    public void upFreq(){
