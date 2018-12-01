@@ -130,16 +130,18 @@ void draw(){
 
 void drawText(){
   int x= 10;
-  int y=10;
+  int y=20;
   int wordSize;
   
-  
+  PFont font = loadFont("CambriaMath.vlw");
+  textFont(font);
+  textSize(20);
   for(int i=0; i<inputs.size(); i++){
     wordSize = int(textWidth(inputs.get(i).getWord()) + textWidth(" "));
     if(x>windowWidth-wordSize)
      {
        x=10;
-       y+=15;
+       y+=25;
      }
      fill(inputs.get(i).r, inputs.get(i).g, inputs.get(i).b);
      text(inputs.get(i).getWord(), x, y);
