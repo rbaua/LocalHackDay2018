@@ -43,9 +43,6 @@ class Node{
 ArrayList<Node> inputs = new ArrayList<Node>();
 int windowWidth = 1000;
 int windowHeight = 1000;
-boolean page1 = true;
-boolean page2 = false;
-ArrayList<Node> summary;
 
 
 //Search Function to update all values
@@ -123,31 +120,12 @@ void parseInput(){
      }
      }
  }
- summary = summary(inputs);
 }
 
 
 void draw(){
   background(53, 56, 57);
-  if(page1==true){
-     drawText(); 
-  }
-  else{
-     drawResults(); 
-  }
-}
-
-void mousePressed(){
-  if(mousePressed && mouseButton == LEFT)
-  {
-      page1=false;
-      page2=true;
-  }
-  else if(mousePressed && mouseButton == RIGHT)
-  {
-      page1=true;
-      page2=false;
-  }
+  drawText(); 
 }
 
 void drawText(){
@@ -185,69 +163,4 @@ void clipPunct(String s){
  else if (period == s.length() || comma==s.length() || quote ==s.length() || exclamation ==s.length() || question == s.length()){
   s=s.substring(0, s.length()-1);
  }
-}
-
-
-
-void drawResults()
-{
-  int x= 50;
-  int y=20;
-  int wordSize;
-  
-  PFont font = loadFont("CambriaMath.vlw");
-  textFont(font);
-  textSize(20);
-  
-  for(int i=0; i<summary.size(); i++){
-     wordSize = int(textWidth(summary.get(i).getWord()) + textWidth(" "));
-    
-     fill(inputs.get(i).r, inputs.get(i).g, inputs.get(i).b);
-     text(inputs.get(i).getWord(), x, y);
-     
-     x+= wordSize;
-     
-     text(" = ", x, y);
-     
-     x+=textWidth(" =  ");
-     
-     text(summary.get(i).getFreq(), x, y);
-     
-     y+=25;
-     x=50;
-     
-  }
-}
-
-ArrayList<Node> summary(ArrayList<Node> A){
-    ArrayList<Node> summary = new ArrayList<Node>();
-    ArrayList<Node> temp = new ArrayList<Node>();
-    for(Node n : A) {
-      temp.add(n);
-    }
-    String thing = "";
-    int max = 0;
-    int index = -1;
-    
-    for( int j=0; j < 15; j++){
-      for( Node object1: temp){
-        if (object1.freq > max){
-          max = object1.freq;
-          index = temp.indexOf(object1);
-          thing = object1.input;
-        }
-      }
-      
-      Node add = temp.get(index);
-      summary.add(add);
-   
-      for( Node object2: temp){
-        if (object2.input.equals(thing)){
-          int target = temp.indexOf(object2);
-          temp.remove(target);
-        }
-      }
-    }
-    
-    return summary;
 }
