@@ -41,6 +41,8 @@ class Node{
 }
 
 ArrayList<Node> inputs = new ArrayList<Node>();
+int windowWidth = 1000;
+int windowHeight = 1000;
 
 
 //Search Function to update all values
@@ -83,7 +85,10 @@ void parseInput(){
  int spaceIndex;
  
  for( int i=0; i < lines.length; i++){ 
-   lines[i] = lines[i].substring(0, lines[i].length()-1);
+   if(!lines[i].equals("")){
+     lines[i] = lines[i].substring(0, lines[i].length()-1);
+   }
+  
    while(lines[i] != "" && lines[i] != "\n" && lines[i] != " "){
    
      spaceIndex = lines[i].indexOf(" ");   
@@ -126,12 +131,21 @@ void draw(){
 void drawText(){
   int x= 10;
   int y=10;
+  int wordSize;
+  
   
   for(int i=0; i<inputs.size(); i++){
+    wordSize = int(textWidth(inputs.get(i).getWord()) + textWidth(" "));
+    if(x>windowWidth-wordSize)
+     {
+       x=10;
+       y+=15;
+     }
      fill(inputs.get(i).r, inputs.get(i).g, inputs.get(i).b);
      text(inputs.get(i).getWord(), x, y);
-     //x+= ((inputs.get(i).getWord()).length())*9;
-     y+=15;
+     
+     x+= wordSize;
+     
   }
 }
 
