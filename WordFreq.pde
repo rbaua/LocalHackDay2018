@@ -1,4 +1,9 @@
 import java.util.*;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+import java.io.File;
+
+//bless this mess
 class Node{
    String input;
    int freq;
@@ -59,8 +64,15 @@ int search(String word){
 }
 
 void setup(){
- Scanner keyboard = new Scanner(System.in);
- String paragraph = keyboard.next();
+ size(1000, 1000);
+ parseInput();
+}
+
+void parseInput(){
+ File file = new File("UserInput.txt");
+ try{
+ Scanner sc = new Scanner(file);
+ String paragraph = sc.next();
  int r = 245;
  int g = 219;
  int b = 255;
@@ -92,5 +104,26 @@ void setup(){
    paragraph = paragraph.substring(spaceIndex+1);
  }
  
- keyboard.close();
+ sc.close();
+ }
+ catch (FileNotFoundException e) {
+  System.out.println("File not found");
+ }
+}
+
+void draw(){
+  drawText(); 
+}
+
+void drawText(){
+  int x= 10;
+  int y=10;
+  
+  
+  
+  for(int i=0; i<inputs.size(); i++){
+     fill(inputs.get(i).r, inputs.get(i).g, inputs.get(i).b);
+     text(inputs.get(i).getWord(), x, y);
+     y+=15;
+  }
 }
