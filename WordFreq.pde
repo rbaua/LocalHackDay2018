@@ -164,3 +164,36 @@ void clipPunct(String s){
   s=s.substring(0, s.length()-1);
  }
 }
+
+ArrayList<Node> summary(ArrayList<Node> A){
+    ArrayList<Node> summary = new ArrayList<Node>();
+    ArrayList<Node> temp = new ArrayList<Node>();
+    for(Node n : A) {
+      temp.add(n);
+    }
+    String thing = "";
+    int max = 0;
+    int index = -1;
+    
+    for( int j=0; j < 15; j++){
+      for( Node object1: temp){
+        if (object1.freq > max){
+          max = object1.freq;
+          index = temp.indexOf(object1);
+          thing = object1.input;
+        }
+      }
+      
+      Node add = temp.get(index);
+      summary.add(add);
+   
+      for( Node object2: temp){
+        if (object2.input.equals(thing)){
+          int target = temp.indexOf(object2);
+          temp.remove(target);
+        }
+      }
+    }
+    
+    return summary;
+}
