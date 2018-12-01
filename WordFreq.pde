@@ -69,10 +69,9 @@ void setup(){
 }
 
 void parseInput(){
- File file = new File("UserInput.txt");
- try{
- Scanner sc = new Scanner(file);
- String paragraph = sc.next();
+
+ String[] lines = loadStrings("UserInput.txt");
+ 
  int r = 245;
  int g = 219;
  int b = 255;
@@ -82,34 +81,40 @@ void parseInput(){
  Node newNode;
  int spaceIndex;
  
- while(paragraph.length()>0){
+ for( int i=0; i < lines.length; i++){ 
+   while(lines[i] != ""){
    
-   spaceIndex = paragraph.indexOf(" ");
+     spaceIndex = lines[i].indexOf(" ");   
    
-   temp = paragraph.substring(0, spaceIndex);
-   if(temp.length()>0)
-   {
-     if (search(temp)==-1)
-     {
-       newNode = new Node(temp, r, g, b, 0);
+     if (spaceIndex == -1){
+        
+       newNode = new Node(lines[i], r, g, b, 0);
        inputs.add(newNode);
+       
+       lines[i] = "";
+       
+     } else {
+       temp = lines[i].substring(0, spaceIndex);
+       if(temp.length()>0)
+       {
+         if (search(temp)==-1)
+         {
+           newNode = new Node(temp, r, g, b, 0);
+           inputs.add(newNode);
+         }
+         else
+         {
+           prevNode = inputs.get(search(temp));
+           newNode = new Node(temp, prevNode.r, prevNode.g, prevNode.b, prevNode.getFreq());
+           inputs.add(newNode);
+         }
+       }
+       lines[i] = lines[i].substring(spaceIndex+1);
      }
-     else
-     {
-       prevNode = inputs.get(search(temp));
-       newNode = new Node(temp, prevNode.r, prevNode.g, prevNode.b, prevNode.getFreq());
-       inputs.add(newNode);
      }
-   }
-   paragraph = paragraph.substring(spaceIndex+1);
- }
- 
- sc.close();
- }
- catch (FileNotFoundException e) {
-  System.out.println("File not found");
  }
 }
+
 
 void draw(){
   drawText(); 
