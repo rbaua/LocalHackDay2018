@@ -43,6 +43,9 @@ class Node{
 ArrayList<Node> inputs = new ArrayList<Node>();
 int windowWidth = 1000;
 int windowHeight = 1000;
+boolean page1 = true;
+boolean page2 = false;
+ArrayList<Node> summary;
 
 
 //Search Function to update all values
@@ -120,12 +123,31 @@ void parseInput(){
      }
      }
  }
+ summary = summary(inputs);
 }
 
 
 void draw(){
   background(53, 56, 57);
-  drawText(); 
+  if(page1==true){
+     drawText(); 
+  }
+  else{
+     drawResults(); 
+  }
+}
+
+void mousePressed(){
+  if(mousePressed && mouseButton == LEFT)
+  {
+      page1=false;
+      page2=true;
+  }
+  else if(mousePressed && mouseButton == RIGHT)
+  {
+      page1=true;
+      page2=false;
+  }
 }
 
 void drawText(){
@@ -163,6 +185,38 @@ void clipPunct(String s){
  else if (period == s.length() || comma==s.length() || quote ==s.length() || exclamation ==s.length() || question == s.length()){
   s=s.substring(0, s.length()-1);
  }
+}
+
+
+
+void drawResults()
+{
+  int x= 50;
+  int y=20;
+  int wordSize;
+  
+  PFont font = loadFont("CambriaMath.vlw");
+  textFont(font);
+  textSize(20);
+  
+  for(int i=0; i<summary.size(); i++){
+     wordSize = int(textWidth(summary.get(i).getWord()) + textWidth(" "));
+    
+     fill(inputs.get(i).r, inputs.get(i).g, inputs.get(i).b);
+     text(inputs.get(i).getWord(), x, y);
+     
+     x+= wordSize;
+     
+     text(" = ", x, y);
+     
+     x+=textWidth(" =  ");
+     
+     text(summary.get(i).getFreq(), x, y);
+     
+     y+=25;
+     x=50;
+     
+  }
 }
 
 ArrayList<Node> summary(ArrayList<Node> A){
